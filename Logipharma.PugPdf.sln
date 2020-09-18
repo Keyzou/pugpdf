@@ -2,7 +2,7 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Logipharma.PugPdf.SampleNetCore", "Logipharma.PugPdf.SampleNetCore\PugPdf.SampleNetCore.csproj", "{61D7A108-5220-4103-B234-AA9B773B59BA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Logipharma.PugPdf.Core", "Logipharma.PugPdf.Core\PugPdf.Core.csproj", "{DB165F31-C9F4-4D31-9B9D-69AD1F4FCF5F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Logipharma.PugPdf.Core", "Logipharma.PugPdf.Core\Logipharma.PugPdf.Core.csproj", "{DB165F31-C9F4-4D31-9B9D-69AD1F4FCF5F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
