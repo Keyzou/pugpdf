@@ -49,6 +49,7 @@ namespace Logipharma.PugPdf.Core
             switches.Add($"--image-dpi {ImageDPI}");
             switches.Add($"--image-quality {ImageQuality}");
             switches.Add("--disable-smart-shrinking");
+            switches.Add("--enable-local-file-access");
 
             if (Header != null)
                 switches.AddRange(Header.GetSwitches());
