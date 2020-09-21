@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Reflection;
@@ -91,56 +92,62 @@ namespace Logipharma.PugPdf.Core
             return stringBuilder.ToString();
         }
 
-        public static async Task<byte[]> ConvertAsync(string html, string switches = "")
+        public static async Task<byte[]> ConvertAsync(string html, IEnumerable<string> switches)
         {
-            switches = "-q " + switches + " -";
+            var args = string.Join(" ", switches) + " -";
             if (!string.IsNullOrEmpty(html))
             {
-                switches += " -";
+                args += " -";
                 html = SpecialCharsEncode(html);
             }
 
-            using (var process = new Process())
+
+            using var process = new Process();
+            try
             {
-                process.StartInfo = new ProcessStartInfo()
+
+                process.StartInfo = new ProcessStartInfo
                 {
                     FileName = GetPath(),
-                    Arguments = switches,
+                    Arguments = args,
                     UseShellExecute = false,
                     RedirectStandardOutput = true,
                     RedirectStandardError = true,
                     RedirectStandardInput = true,
                     CreateNoWindow = true
                 };
+
                 process.Start();
-
-                if (!string.IsNullOrEmpty(html))
-                {
-                    using (var standardInput = process.StandardInput)
-                    {
-                        await standardInput.WriteLineAsync(html);
-                    }
-                }
-
-                using (var memoryStream = new MemoryStream())
-                using (var baseStream = process.StandardOutput.BaseStream)
-                {
-                    var buffer = new byte[4096];
-                    int count;
-
-                    while ((count = await baseStream.ReadAsync(buffer, 0, buffer.Length)) > 0)
-                        memoryStream.Write(buffer, 0, count);
-
-                    var end = await process.StandardError.ReadToEndAsync();
-
-                    if (memoryStream.Length == 0L)
-                        throw new Exception(end);
-
-                    process.WaitForExit();
-
-                    return memoryStream.ToArray();
-                }
             }
+            catch (Exception)
+            {
+                throw;
+            }
+
+            if (!string.IsNullOrEmpty(html))
+            {
+                using var stdin = process.StandardInput;
+                stdin.WriteLine(html);
+            }
+
+            using var memoryStream = new MemoryStream();
+            using var baseStream = process.StandardOutput.BaseStream;
+            var buffer = new byte[4096];
+            int read;
+
+            while ((read = baseStream.Read(buffer, 0, buffer.Length)) > 0)
+            {
+                memoryStream.Write(buffer, 0, read);
+            }
+
+            string error = process.StandardError.ReadToEnd();
+            if (memoryStream.Length == 0)
+            {
+                throw new Exception(error);
+            }
+
+            process.WaitForExit();
+            return memoryStream.ToArray();
         }
     }
 }

@@ -1,17 +1,15 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFrameworks>netstandard2.0;netstandard2.1</TargetFrameworks>
-    </PropertyGroup>
-
-    <PropertyGroup>
         <PackageId>Logipharma.PugPDF.Core</PackageId>
         <Title>PugPDF Core</Title>
         <PackageDescription>WkHtmlToPdf .net core wrapper</PackageDescription>
         <Description>WkHtmlToPdf .net core wrapper</Description>
         <Copyright>Copyright 2020 Pelle Branden</Copyright>
+        <TargetFramework>netcoreapp3.1</TargetFramework>
         <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
         <Version>1.0.8</Version>
+        <LangVersion>8.0</LangVersion>
         <Authors>Pelle Branden</Authors>
         <Company>Pelle Branden</Company>
     </PropertyGroup>

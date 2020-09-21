@@ -32,7 +32,6 @@ namespace Logipharma.PugPdf.Core
             return path + ".pdf";
         }
 
-#if NETSTANDARD2_1
         public Task SaveAsAsync(string path)
         {
             return File.WriteAllBytesAsync(path, BinaryData);
@@ -41,11 +40,10 @@ namespace Logipharma.PugPdf.Core
         public async Task<string> SaveInTempFolderAsync()
         {
             var filePath = GetTempFilePath();
-            
+
             await SaveAsAsync(filePath);
 
             return filePath;
         }
-#endif
     }
 }

@@ -1,4 +1,6 @@
-﻿namespace Logipharma.PugPdf.Core
+﻿using System.Collections.Generic;
+
+namespace Logipharma.PugPdf.Core
 {
     public class PdfFooter
     {
@@ -12,31 +14,31 @@
         public int Spacing { get; set; } = 0;
         public string Replace { get; set; } = string.Empty;
 
-        public string GetSwitches()
+        public IEnumerable<string> GetSwitches()
         {
-            var switches = string.Empty;
+            var switches = new List<string>();
 
             if (!string.IsNullOrEmpty(LeftText))
-                switches += $"--footer-left \"{LeftText}\" ";
+                switches.Add($"--footer-left \"{LeftText}\"");
 
             if (!string.IsNullOrEmpty(CenterText))
-                switches += $"--footer-center \"{CenterText}\" ";
+                switches.Add($"--footer-center \"{CenterText}\"");
 
             if (!string.IsNullOrEmpty(RightText))
-                switches += $"--footer-right \"{RightText}\" ";
+                switches.Add($"--footer-right \"{RightText}\"");
 
             if (!string.IsNullOrEmpty(HTMLUrl))
-                switches += $"--footer-html \"{HTMLUrl}\" ";
+                switches.Add($"--footer-html \"{HTMLUrl}\"");
 
             if (DisplayLine)
-                switches += "--footer-line ";
+                switches.Add("--footer-line");
 
-            switches += $"--footer-font-size {FontSize} ";
-            switches += $"--footer-font-name {FontName} ";
-            switches += $"--footer-spacing {Spacing} ";
+            switches.Add($"--footer-font-size {FontSize}");
+            switches.Add($"--footer-font-name {FontName}");
+            switches.Add($"--footer-spacing {Spacing}");
 
             if (!string.IsNullOrEmpty(Replace))
-                switches += $"--replace {Replace} ";
+                switches.Add($"--replace {Replace}");
 
             return switches;
         }

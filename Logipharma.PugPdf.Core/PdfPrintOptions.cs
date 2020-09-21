@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 namespace Logipharma.PugPdf.Core
 {
     public class PdfPrintOptions
@@ -18,37 +20,40 @@ namespace Logipharma.PugPdf.Core
         public PdfHeader Header { get; set; } = new PdfHeader();
         public PdfFooter Footer { get; set; } = new PdfFooter();
 
-        public string GetSwitches()
+        public IEnumerable<string> GetSwitches()
         {
-            var switches = string.Empty;
+            var switches = new List<string>
+            {
+                $"--margin-bottom {MarginBottom} ",
+                $"--margin-top {MarginTop}",
+                $"--margin-left {MarginLeft}",
+                $"--margin-right {MarginRight}",
 
-            switches += $"--margin-bottom {MarginBottom} ";
-            switches += $"--margin-top {MarginTop} ";
-            switches += $"--margin-left {MarginLeft} ";
-            switches += $"--margin-right {MarginRight} ";
+                $"--page-size {PageSize}",
 
-            switches += $"--page-size {PageSize} ";
-
-            switches += $"--orientation {Orientation} ";
+                $"--orientation {Orientation}"
+            };
 
             if (!string.IsNullOrEmpty(Title))
-                switches += $"--title \"{Title}\" ";
+                switches.Add($"--title \"{Title}\"");
 
             if (LowQuality)
-                switches += "--lowquality ";
+                switches.Add("--lowquality");
 
             if (UsePrintMediaType)
-                switches += "--print-media-type ";
+                switches.Add("--print-media-type");
 
             if (Grayscale)
-                switches += "--grayscale ";
+                switches.Add("--grayscale");
 
-            switches += $"--image-dpi {ImageDPI} ";
-            switches += $"--image-quality {ImageQuality} ";
-            switches += "--disable-smart-shrinking ";
+            switches.Add($"--image-dpi {ImageDPI}");
+            switches.Add($"--image-quality {ImageQuality}");
+            switches.Add("--disable-smart-shrinking");
 
-            switches += Header?.GetSwitches();
-            switches += Footer?.GetSwitches();
+            if (Header != null)
+                switches.AddRange(Header.GetSwitches());
+            if (Footer != null)
+                switches.AddRange(Footer.GetSwitches());
 
             return switches;
         }
