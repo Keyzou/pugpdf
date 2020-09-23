@@ -31,7 +31,7 @@ namespace Logipharma.PugPdf.Core
         private static string GetExecutablePath()
         {
             var assembly = Assembly.GetAssembly(typeof(WkHtmlToPdfDriver));
-            using var stream = assembly.GetManifestResourceStream("wkhtmltopdf");
+            using var stream = assembly.GetManifestResourceStream("Logipharma.Pugpdf.Core.wkhtmltopdf.wkhtmltopdf");
             var bytes = new byte[stream.Length];
             stream.Read(bytes, 0, bytes.Length);
             File.WriteAllBytes("tmp/wkhtmltopdf", bytes);
