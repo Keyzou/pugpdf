@@ -6,11 +6,11 @@
       </PropertyGroup>
 
       <Target Name="CopyBuild" BeforeTargets="Build">
-            <Copy SourceFiles="$(ContentFilesPath)\wkhtmltopdf\linux\x64\wkhtmltopdf" DestinationFiles="$(OutDir)\wkhtmltopdf\linux\x64\wkhtmltopdf" SkipUnchangedFiles="true" Condition="!Exists('$(OutDir)\wkhtmltopdf\linux\x64\wkhtmltopdf')"></Copy>
+            <Copy SourceFiles="$(ContentFilesPath)\wkhtmltopdf\wkhtmltopdf" DestinationFiles="$(OutDir)\wkhtmltopdf\wkhtmltopdf" SkipUnchangedFiles="true" Condition="!Exists('$(OutDir)\wkhtmltopdf\wkhtmltopdf')"></Copy>
       </Target>
 
       <Target Name="CopyPublish" BeforeTargets="Publish">
-            <Copy SourceFiles="$(ContentFilesPath)\wkhtmltopdf\linux\x64\wkhtmltopdf" DestinationFiles="$(PublishDir)\wkhtmltopdf\linux\x64\wkhtmltopdf" SkipUnchangedFiles="true" Condition="!Exists('$(PublishDir)\wkhtmltopdf\linux\x64\wkhtmltopdf')"></Copy>
+            <Copy SourceFiles="$(ContentFilesPath)\wkhtmltopdf\wkhtmltopdf" DestinationFiles="$(PublishDir)\wkhtmltopdf\wkhtmltopdf" SkipUnchangedFiles="true" Condition="!Exists('$(PublishDir)\wkhtmltopdf\wkhtmltopdf')"></Copy>
       </Target>
 
 
