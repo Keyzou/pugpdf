@@ -8,36 +8,17 @@
         <Copyright>Copyright 2020 Pelle Branden</Copyright>
         <TargetFramework>netcoreapp3.1</TargetFramework>
         <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
-        <Version>1.1.1</Version>
+        <Version>1.1.2</Version>
         <LangVersion>8.0</LangVersion>
         <Authors>Pelle Branden, Segepar</Authors>
         <Company>Pelle Branden, Segepar</Company>
     </PropertyGroup>
 
     <ItemGroup>
-
-        <Content Include="wkhtmltopdf\mac\x64\wkhtmltopdf">
-            <Pack>true</Pack>
-            <PackagePath>lib\any\wkhtmltopdf\mac\x64</PackagePath>
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </Content>
-        <Content Include="wkhtmltopdf\windows\x64\wkhtmltopdf.exe">
-            <Pack>true</Pack>
-            <PackagePath>lib\any\wkhtmltopdf\windows\x64\wkhtmltopdf.exe</PackagePath>
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </Content>
-        <Content Include="wkhtmltopdf\windows\x86\wkhtmltopdf.exe">
-            <Pack>true</Pack>
-            <PackagePath>lib\any\wkhtmltopdf\windows\x86\wkhtmltopdf.exe</PackagePath>
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </Content>
-
-        <Content Include="wkhtmltopdf\linux\x64\wkhtmltopdf">
-            <Pack>true</Pack>
-            <PackagePath>lib\any\wkhtmltopdf\linux\x64</PackagePath>
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </Content>
-
+        <Content Remove="wkhtmltopdf/**" />
+    </ItemGroup>
+    <ItemGroup>
+        <EmbeddedResource Include="wkhtmltopdf/**" />
     </ItemGroup>
 
 

@@ -31,47 +31,14 @@ namespace Logipharma.PugPdf.Core
         private static string GetExecutablePath()
         {
             var assembly = Assembly.GetAssembly(typeof(WkHtmlToPdfDriver));
+            using var stream = assembly.GetManifestResourceStream("wkhtmltopdf");
+            var bytes = new byte[stream.Length];
+            stream.Read(bytes, 0, bytes.Length);
+            File.WriteAllBytes("tmp/wkhtmltopdf", bytes);
 
-            var assemblyFolderPath = Path.GetDirectoryName(assembly.Location);
+            _executablePath = "tmp/wkhtmltopdf";
 
-            var path = Path.Combine(assemblyFolderPath, "wkhtmltopdf");
-
-            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-            {
-                switch (RuntimeInformation.ProcessArchitecture)
-                {
-                    case Architecture.X86:
-                        return Path.Combine(path, "windows", "x86", "wkhtmltopdf.exe");
-                    case Architecture.X64:
-                        return Path.Combine(path, "windows", "x64", "wkhtmltopdf.exe");
-                    default:
-                        throw new NotSupportedException("Process architecture not supported.");
-                }
-            }
-
-            if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
-            {
-                switch (RuntimeInformation.ProcessArchitecture)
-                {
-                    case Architecture.X64:
-                        return Path.Combine(path, "linux", "x64", "wkhtmltopdf");
-                    default:
-                        throw new NotSupportedException("Process architecture not supported.");
-                }
-            }
-
-            if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
-            {
-                switch (RuntimeInformation.ProcessArchitecture)
-                {
-                    case Architecture.X64:
-                        return Path.Combine(path, "mac", "x64", "wkhtmltopdf");
-                    default:
-                        throw new NotSupportedException("Process architecture not supported.");
-                }
-            }
-
-            throw new NotSupportedException("OS not supported.");
+            return _executablePath;
         }
 
         private static string SpecialCharsEncode(string text)
