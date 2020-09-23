@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Reflection;
 using System.Runtime.InteropServices;
+using System.Security.AccessControl;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -28,14 +29,36 @@ namespace Logipharma.PugPdf.Core
             return path;
         }
 
+        private static void Exec(string cmd)
+        {
+            var escapedArgs = cmd.Replace("\"", "\\\"");
+
+            var process = new Process
+            {
+                StartInfo = new ProcessStartInfo
+                {
+                    RedirectStandardOutput = true,
+                    UseShellExecute = false,
+                    CreateNoWindow = true,
+                    WindowStyle = ProcessWindowStyle.Hidden,
+                    FileName = "/bin/bash",
+                    Arguments = $"-c \"{escapedArgs}\""
+                }
+            };
+
+            process.Start();
+            process.WaitForExit();
+        }
+
         private static string GetExecutablePath()
         {
             var assembly = Assembly.GetAssembly(typeof(WkHtmlToPdfDriver));
-            using var stream = assembly.GetManifestResourceStream("Logipharma.Pugpdf.Core.wkhtmltopdf.wkhtmltopdf");
+            using var stream = assembly.GetManifestResourceStream("Logipharma.PugPdf.Core.wkhtmltopdf.wkhtmltopdf");
             var bytes = new byte[stream.Length];
             stream.Read(bytes, 0, bytes.Length);
+            Directory.CreateDirectory("tmp");
             File.WriteAllBytes("tmp/wkhtmltopdf", bytes);
-
+            Exec("chmod 777 tmp/wkhtmltopdf");
             _executablePath = "tmp/wkhtmltopdf";
 
             return _executablePath;
