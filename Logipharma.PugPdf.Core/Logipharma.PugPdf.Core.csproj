@@ -8,7 +8,7 @@
         <Copyright>Copyright 2020 Pelle Branden</Copyright>
         <TargetFramework>netcoreapp3.1</TargetFramework>
         <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
-        <Version>1.1.5</Version>
+        <Version>1.1.6</Version>
         <LangVersion>8.0</LangVersion>
         <Authors>Pelle Branden, Segepar</Authors>
         <Company>Pelle Branden, Segepar</Company>
@@ -20,14 +20,4 @@
     <ItemGroup>
         <EmbeddedResource Include="wkhtmltopdf/**" />
     </ItemGroup>
-
-
-    <ItemGroup>
-        <Content Include="Logipharma.PugPdf.Core.targets">
-            <Pack>true</Pack>
-            <PackagePath>build\Logipharma.PugPdf.Core.targets</PackagePath>
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </Content>
-    </ItemGroup>
-
 </Project>
