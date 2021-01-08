@@ -53,15 +53,45 @@ namespace Logipharma.PugPdf.Core
         private static string GetExecutablePath()
         {
             var assembly = Assembly.GetAssembly(typeof(WkHtmlToPdfDriver));
-            using var stream = assembly.GetManifestResourceStream("Logipharma.PugPdf.Core.wkhtmltopdf.wkhtmltopdf");
-            var bytes = new byte[stream.Length];
-            stream.Read(bytes, 0, bytes.Length);
-            Directory.CreateDirectory("tmp");
-            File.WriteAllBytes("tmp/wkhtmltopdf", bytes);
-            Exec("chmod 777 tmp/wkhtmltopdf");
-            _executablePath = "tmp/wkhtmltopdf";
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
+            {
+                switch (RuntimeInformation.ProcessArchitecture)
+                {
+                    case Architecture.X64:
+                        using (var stream = assembly.GetManifestResourceStream("Logipharma.PugPdf.Core.wkhtmltopdf.wkhtmltopdf"))
+                        {
+                            var bytes = new byte[stream.Length];
+                            stream.Read(bytes, 0, bytes.Length);
+                            Directory.CreateDirectory("tmp");
+                            File.WriteAllBytes("tmp/wkhtmltopdf", bytes);
+                            Exec("chmod 777 tmp/wkhtmltopdf");
+                            return _executablePath = "tmp/wkhtmltopdf";
+                        }
+                    default:
+                        throw new NotSupportedException("Process architecture not supported.");
+                }
+            }
 
-            return _executablePath;
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+            {
+                switch (RuntimeInformation.ProcessArchitecture)
+                {
+                    case Architecture.X64:
+                        using (var stream = assembly.GetManifestResourceStream("Logipharma.PugPdf.Core.wkhtmltopdf.wkhtmltopdf.exe"))
+                        {
+                            var bytes = new byte[stream.Length];
+                            stream.Read(bytes, 0, bytes.Length);
+                            Directory.CreateDirectory("tmp");
+                            File.WriteAllBytes("tmp/wkhtmltopdf.exe", bytes);
+                            return _executablePath = "tmp/wkhtmltopdf.exe";
+                        }
+                    default:
+                        throw new NotSupportedException("Process architecture not supported.");
+                }
+            }
+
+            throw new NotSupportedException("OS not supported.");
+
         }
 
         private static string SpecialCharsEncode(string text)

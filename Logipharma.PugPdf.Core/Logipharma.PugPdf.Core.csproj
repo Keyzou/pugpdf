@@ -8,7 +8,7 @@
         <Copyright>Copyright 2020 Pelle Branden</Copyright>
         <TargetFramework>netcoreapp3.1</TargetFramework>
         <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
-        <Version>1.1.6</Version>
+        <Version>1.2.0</Version>
         <LangVersion>8.0</LangVersion>
         <Authors>Pelle Branden, Segepar</Authors>
         <Company>Pelle Branden, Segepar</Company>
